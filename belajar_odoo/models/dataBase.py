@@ -73,6 +73,7 @@ class Ekstrakulikuler(models.Model):
     
     nama = fields.Char(string="Nama Extrakulikuler", required=True)
     umur = fields.Integer(string="Buat umur berapa", required=True)
+    active = fields.Boolean(default=True)
     siswa_ids = fields.Many2many(
         comodel_name="data.siswa",
         string="peserta"
