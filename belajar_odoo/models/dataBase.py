@@ -73,11 +73,19 @@ class Ekstrakulikuler(models.Model):
     
     nama = fields.Char(string="Nama Extrakulikuler", required=True)
     umur = fields.Integer(string="Buat umur berapa", required=True)
+    Peseta = fields.Integer(string="peserta", required=True)
+    bayarMasuk = fields.Float(string="harga masuk ekstrakulikuler" , required=True)
+    totalHarga = fields.Float(compute='_compute_totalHarga', store=True)
     active = fields.Boolean(default=True)
     siswa_ids = fields.Many2many(
         comodel_name="data.siswa",
         string="peserta"
     )
+    
+    @api.depends('bayarMasuk','Peseta')
+    def _compute_totalHarga(self):
+        for record in self:
+            record.totalHarga = record.bayarMasuk * record.Peseta 
     
     @api.constrains("umur")
     def chek_umur(self):
